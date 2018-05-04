@@ -1,0 +1,14 @@
+{
+  "name": "spc-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/gauravsofat/spc-backend.git",
+  "license": "MIT",
+  "dependencies": {
+    "mongoose": "^5.0.17"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "nodemon": "^1.17.3"
+  }
+}
