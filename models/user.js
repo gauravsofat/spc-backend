@@ -1,13 +1,14 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    sid: Number, // Institute student ID
+    sid: { type: Number, required: true }, // Institute student ID
     firstName: String,
     middleName: String,
     lastName: String,
-    email: String, // Alternate e-mail address
+    email: { type: String, required: true }, // Alternate e-mail address
     dob: Date, // Date of birth
     gender: String, // One out of [Male, Female, Other]
     mobileNumber: String,
@@ -24,15 +25,15 @@ const userSchema = new Schema(
     branch: String, // One out of [B.Tech(ICT), B.Tech(CS), M.Tech, M.Sc(IT), M.Des, Ph.D]
     currentBacklogs: Number,
     totalBacklogs: Number,
-    areaOfInterest: String,
+    areaOfInterest: String, // One out of [IT, EL, CT]
     regList: [String], // Companies that the student has registered for
     offerList: [String], // Companies that the student has received an offer from
-    password: String,
-    isUserVerified: Boolean,
-    isAdminVerified: Boolean,
-    interestedInPlacement: Boolean
+    password: { type: String, required: true },
+    isUserVerified: { type: Boolean, default: false },
+    isAdminVerified: { type: Boolean, default: false },
+    interestedInPlacement: Boolean,
   },
-  { collection: "users" }
+  { collection: 'users' },
 );
 
-export default mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

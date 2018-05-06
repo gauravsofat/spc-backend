@@ -1,16 +1,17 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const companySchema = new Schema(
   {
-    name: String,
-    category: String,
-    description: String,
-    profile: String,
-    event: String,
-    studentList: [String] // Students selected for the profile
+    name: { type: String, required: true },
+    category: { type: String, required: true },
+    description: { type: String, required: true },
+    profile: { type: String, required: true },
+    event: { type: String, required: true }, // One out of [I, J, I+J]
+    studentList: [String], // Students selected for the profile
   },
-  { collection: "companies" }
+  { collection: 'companies' },
 );
 
-export default mongoose.model("Company", companySchema);
+module.exports = mongoose.model('Company', companySchema);
