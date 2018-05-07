@@ -1,8 +1,12 @@
+// Import Dependencies
 const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 require('dotenv').config();
+
+// Import routes
+const signup = require('./routes/signup');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -32,6 +36,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/signup', signup);
+
+// Error handling
+app.use((err, req, res) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Server Error, Something Broke' });
+});
+
 // Start Server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('Server running on port', port, '...'));
