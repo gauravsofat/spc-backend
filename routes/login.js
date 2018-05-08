@@ -1,0 +1,29 @@
+const express = require('express');
+const jwt = require('jsonwebtoken');
+
+const User = require('../models/user');
+
+const userAuth = (req, res) => {
+  User.findOne({ sid: req.body.sid }).exec((queryError, user) => {
+    if (queryError) console.log(queryError);
+    else if (user == null) res.json({ message: 'User does not exist.' });
+    // else if (user.isUserVerified === false) res.json({ message: 'Email Confirmation Pending' });
+    else if (user.password !== req.body.password) res.json({ message: 'Incorrect Password' });
+    else {
+      const token = jwt.sign(
+        { sid: user.sid, admin: user.sid === process.env.ADMIN_ID },
+        process.env.SECRET_KEY,
+        { expiresIn: 1440 },
+      );
+      res.json({
+        message: 'Successful Authentication',
+        token,
+        admin: user.sid === process.env.ADMIN_ID,
+      });
+    }
+  });
+};
+
+const router = express.Router();
+router.get('/', userAuth);
+module.exports = router;

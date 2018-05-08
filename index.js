@@ -7,6 +7,7 @@ require('dotenv').config();
 
 // Import routes
 const signup = require('./routes/signup');
+const login = require('./routes/login');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/signup', signup);
+app.use('/login', login);
 
 // Error handling
 app.use((err, req, res) => {

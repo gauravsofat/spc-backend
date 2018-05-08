@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    sid: { type: Number, required: true }, // Institute student ID
+    sid: { type: String, required: true, match: /\d{9}/ }, // Institute student ID
     firstName: String,
     middleName: String,
     lastName: String,
@@ -28,7 +28,7 @@ const userSchema = new Schema(
     areaOfInterest: String, // One out of [IT, EL, CT]
     regList: [String], // Companies that the student has registered for
     offerList: [String], // Companies that the student has received an offer from
-    password: { type: String, required: true },
+    password: { type: String, required: true, minlength: 8 },
     isUserVerified: { type: Boolean, default: false },
     isAdminVerified: { type: Boolean, default: false },
     interestedInPlacement: Boolean,
