@@ -9,6 +9,10 @@ require('dotenv').config();
 const signup = require('./routes/signup');
 const login = require('./routes/login');
 
+// Import model for user verification - Not Gaurav
+const User = require('./models/user');
+// Not Gaurav ended
+
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
 mongoose.set('debug', true);
@@ -39,6 +43,20 @@ app.use((req, res, next) => {
 
 app.use('/signup', signup);
 app.use('/login', login);
+
+// Email verification and redirection - Not Gaurav
+app.get('/login/:token', function (req, res) {
+  try {
+    //const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET);
+    var decoded = jwt.verify(req.params.token, process.env.EMAIL_KEY); // decoded.id = student id
+    //await models.User.update({ confirmed: true }, { where: { id } });
+    User.findOneAndUpdate({ sid: decoded.id }, { isUserVerified: true }); // Find and Update
+  } catch (e) {
+    res.send('error');
+  }
+  return res.redirect('/login');  // Redirect to login page
+});
+// Not Gaurav Ended
 
 // Error handling
 app.use((err, req, res) => {

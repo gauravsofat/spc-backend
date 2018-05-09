@@ -2,6 +2,8 @@ const express = require('express');
 
 const User = require('../models/user'); // Import model
 
+const mailer = require('../mailer.js'); // For welcomeSender function - Not Gaurav
+
 const createNewAccount = (req, res) => {
   User.findOne({ sid: req.body.sid }).exec((queryError, user) => {
     if (queryError) console.log(queryError);
@@ -11,7 +13,10 @@ const createNewAccount = (req, res) => {
         { sid: req.body.sid, email: req.body.email, password: req.body.password },
         (errorInCreation) => {
           if (errorInCreation) console.log(errorInCreation);
-          else res.json({ message: 'New user created Successfully' });
+          else {
+            mailer.welcomeSender(req.body.sid);       // Sending mail confirmation - Not Gaurav
+            res.json({ message: 'New user created Successfully' });
+          }
         },
       );
     } else res.json({ message: 'Duplicate User Found.' });
