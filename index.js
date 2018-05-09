@@ -3,15 +3,15 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Import routes
 const signup = require('./routes/signup');
 const login = require('./routes/login');
 
-// Import model for user verification - Not Gaurav
+// Import model
 const User = require('./models/user');
-// Not Gaurav ended
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -44,19 +44,19 @@ app.use((req, res, next) => {
 app.use('/signup', signup);
 app.use('/login', login);
 
-// Email verification and redirection - Not Gaurav
-app.get('/login/:token', function (req, res) {
+// Email verification and redirection
+app.get('/login/:token', (req, res) => {
   try {
-    //const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET);
-    var decoded = jwt.verify(req.params.token, process.env.EMAIL_KEY); // decoded.id = student id
-    //await models.User.update({ confirmed: true }, { where: { id } });
-    User.findOneAndUpdate({ sid: decoded.id }, { isUserVerified: true }); // Find and Update
+    // Extract user details from token
+    const decoded = jwt.verify(req.params.token, process.env.EMAIL_KEY);
+
+    // Find and Update
+    User.findOneAndUpdate({ sid: decoded.id }, { isUserVerified: true });
   } catch (e) {
     res.send('error');
   }
-  return res.redirect('/login');  // Redirect to login page
+  return res.redirect('/login'); // Redirect to login page
 });
-// Not Gaurav Ended
 
 // Error handling
 app.use((err, req, res) => {
