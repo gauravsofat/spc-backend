@@ -5,7 +5,7 @@ require('dotenv').config();
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'SPC.DAIICT.noReply@gmail.com',
+        user: 'spc.daiict.noreply@gmail.com',
         pass: process.env.SPC_PASS
     }
 });
