@@ -32,7 +32,7 @@ function welcomeSender(sid) {
 
 // Temporary function
 function forgotPassword(sid) {
-  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '1d' }); // Expires in 1 day
+  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '1h' }); // Expires in 1 hour
   const url = `http://localhost:3000/forgPass/${token}`; // Temporary
   const mailOptions = {
     from: '"SPC DAIICT No Reply" <SPC.DAIICT.noReply@gmail.com>', // sender address
