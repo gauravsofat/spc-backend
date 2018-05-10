@@ -33,12 +33,12 @@ function welcomeSender(sid) {
 // Temporary function
 function forgotPassword(sid) {
   const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '1h' }); // Expires in 1 hour
-  const url = `http://localhost:3000/forgPass/${token}`; // Temporary
+  const url = `http://localhost:3000/resetPassword/${token}`; // Temporary
   const mailOptions = {
     from: '"SPC DAIICT No Reply" <SPC.DAIICT.noReply@gmail.com>', // sender address
     to: `${String(sid)}@daiict.ac.in`, // list of receivers
     subject: 'Placement Account New Password', // Subject line
-    text: 'Please click the given link to activate your placement account: ', // plain text body
+    text: 'Please click the given link to reset your placement account password: ', // plain text body
     html: `<a href="${url}">${url}</a>`, // html body
   };
 
