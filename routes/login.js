@@ -25,5 +25,5 @@ const userAuth = (req, res) => {
 };
 
 const router = express.Router();
-router.get('/', userAuth);
+router.post('/', userAuth);
 module.exports = router;
