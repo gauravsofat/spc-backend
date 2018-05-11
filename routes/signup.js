@@ -2,7 +2,7 @@ const express = require('express');
 
 const User = require('../models/user'); // Import model
 
-const mailer = require('../mailer.js'); // Import Controllers
+const sendConfirmationMail = require('../controllers/sendConfirmationMail'); // Import Controllers
 
 const createNewAccount = (req, res) => {
   User.findOne({ sid: req.body.sid }).exec((queryError, user) => {
@@ -14,7 +14,7 @@ const createNewAccount = (req, res) => {
         (errorInCreation) => {
           if (errorInCreation) console.log(errorInCreation);
           else {
-            mailer.welcomeSender(req.body.sid); // Sending confirmation mail
+            sendConfirmationMail(req.body.sid);
             res.json({ message: 'New user created Successfully' });
           }
         },
