@@ -10,7 +10,7 @@ require('dotenv').config();
 // Import routes
 const signup = require('./routes/signup');
 const login = require('./routes/login');
-// const forgotPassword = require('./routes/forgotPassword');
+const forgotPassword = require('./routes/forgotPassword');
 
 // Import model
 // const User = require('./models/user');
@@ -46,8 +46,9 @@ app.use((req, res, next) => {
 
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/forgotPassword', forgotPassword);
 
-/* app.use('/forgotPassword', forgotPassword);
+/*
 // Forgot Password section - token verification and new password
 app.get('/resetPassword/:token', (req, res) => {
   const decoded = jwt.verify(req.params.token, process.env.EMAIL_KEY);
