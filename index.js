@@ -8,6 +8,7 @@ require('dotenv').config();
 // Import routes
 const signup = require('./routes/signup');
 const login = require('./routes/login');
+const forgotpassword = require('./routes/forgotpassword');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -20,9 +21,10 @@ conn.on('connected', () => {
 
 const app = express();
 
-app.use(helmet()); // Sanitization of requests
-app.use(morgan('tiny')); // HTTP request logging
-app.use(express.json()); // Parsing requests as in JSON format
+app.use(helmet()); // Sanitization of incoming requests
+app.use(morgan('tiny')); // Logging of incoming requests
+app.use(express.json()); // Parse JSON encoded payloads in request
+app.use(express.urlencoded({ extended: false })); // Parse URL encoded payload in requests
 
 // Set custom HTTP response headers
 app.use((req, res, next) => {
@@ -39,13 +41,14 @@ app.use((req, res, next) => {
 
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/forgotpassword', forgotpassword);
 
 // Error handling
-app.use((err, req, res) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Server Error, Something Broke' });
+app.use((err, req, res, next) => {
+  if (res.headersSent) next(err);
+  res.send('Server Error. Something Broke!');
 });
 
 // Start Server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('Server running on port', port, '...'));
