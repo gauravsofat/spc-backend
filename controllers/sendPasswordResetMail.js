@@ -12,10 +12,10 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendPasswordResetMail = (sid) => {
-  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '1h' });
-  const url = `http://localhost:3000/forgotpassword/${token}`; // Temporary
+  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '5d' });
+  const url = `http://localhost:3000/forgotpassword?q=${token}`; // Temporary
   const mailOptions = {
-    from: '"SPC DAIICT No Reply" <SPC.DAIICT.noReply@gmail.com>',
+    from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'Placement Account New Password',
     text: 'Please click the given link to reset your SPC student account password: \n',

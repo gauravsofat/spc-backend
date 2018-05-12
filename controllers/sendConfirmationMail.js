@@ -11,20 +11,20 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendConfirmationMail = (sid) => {
-  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '30d' }); // Expires in 30 days
-  const url = `http://localhost:3000/login/${token}`; // Temporary
+  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '5d' }); // Expires in 30 days
+  const url = `http://localhost:5000/login/${token}`; // Temporary
   const mailOptions = {
     from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'SPC Student Account Confirmation',
-    text: 'Please click the given link to verify your student account: \n',
+    text: 'Please click the given link to verify your student account: ',
     html: `<a href="${url}">${url}</a>`,
   };
 
   // Send mail with defined transport object
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) console.log(err);
-    console.log('Message sent: %s', info.messageId);
+    else console.log('Message sent: %s', info.messageId);
   });
 };
 

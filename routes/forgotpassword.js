@@ -5,7 +5,7 @@ const User = require('../models/user'); // Import model
 
 const sendPasswordResetMail = require('../controllers/sendPasswordResetMail'); // Import Controllers
 
-const forgotPassword = (req, res) => {
+const forgotPasswordRequest = (req, res) => {
   User.findOne({ sid: req.body.sid }).exec((queryError, user) => {
     if (queryError) console.log(queryError);
     else if (user == null) res.json({ message: 'User does not exist.' });
@@ -19,34 +19,22 @@ const forgotPassword = (req, res) => {
   });
 };
 
-const resetPassword = (req, res) => {
-  // Token verification and new password
-  const decoded = jwt.verify(req.params.token, process.env.EMAIL_KEY);
-  res.json({ sid: decoded.id });
-};
-
 const passwordUpdate = (req, res) => {
-  // For updating password
+  const userData = jwt.verify(req.body.token, process.env.EMAIL_KEY);
   User.findOneAndUpdate(
-    { sid: req.body.sid },
+    { sid: userData.sid },
     { password: req.body.password },
     { new: true },
-    (err, user) => {
+    (err) => {
       if (err) {
         console.log(err);
         res.json({ message: 'Error. Could not update password.' });
-      } else {
-        res.json({
-          message: 'Password has been updated successfully.',
-          sid: user.sid,
-        });
-      }
+      } else res.redirect('http://localhost:3000/login');
     },
   );
 };
 
 const router = express.Router();
-router.get('/:token', resetPassword);
+router.post('/', forgotPasswordRequest);
 router.put('/', passwordUpdate);
-router.post('/', forgotPassword);
 module.exports = router;

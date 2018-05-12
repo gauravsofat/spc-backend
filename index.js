@@ -8,7 +8,7 @@ require('dotenv').config();
 // Import routes
 const signup = require('./routes/signup');
 const login = require('./routes/login');
-const forgotPassword = require('./routes/forgotPassword');
+const forgotpassword = require('./routes/forgotpassword');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -41,14 +41,14 @@ app.use((req, res, next) => {
 
 app.use('/signup', signup);
 app.use('/login', login);
-app.use('/forgotpassword', forgotPassword);
+app.use('/forgotpassword', forgotpassword);
 
 // Error handling
-app.use((err, req, res) => {
-  console.error(err.stack);
-  res.json({ message: 'Server Error, Something Broke' });
+app.use((err, req, res, next) => {
+  if (res.headersSent) next(err);
+  res.send('Server Error. Something Broke!');
 });
 
 // Start Server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log('Server running on port', port, '...'));

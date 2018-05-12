@@ -29,20 +29,15 @@ const verifyUser = (req, res) => {
   // Extract user data from token
   const userData = jwt.verify(req.params.token, process.env.EMAIL_KEY);
 
-  User.findOneAndUpdate(
-    { sid: userData.id },
-    { isUserVerified: true },
-    { new: true },
-    (err, updatedUser) => {
-      if (err) {
-        console.log(err);
-        res.json({ message: 'Database error. User could not be verified' });
-      } else res.json({ message: 'User has been verified.', sid: updatedUser.sid });
-    },
-  );
+  User.findOneAndUpdate({ sid: userData.id }, { isUserVerified: true }, { new: true }, (err) => {
+    if (err) {
+      console.log(err);
+      res.json({ message: 'Error. Could not verify user' });
+    } else res.redirect('http://localhost:3000/login');
+  });
 };
 
 const router = express.Router();
-router.post('/', userAuth);
 router.get('/:token', verifyUser);
+router.post('/', userAuth);
 module.exports = router;
