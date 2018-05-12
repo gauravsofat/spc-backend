@@ -5,7 +5,6 @@
   "repository": "https://github.com/gauravsofat/spc-backend.git",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "helmet": "^3.12.0",

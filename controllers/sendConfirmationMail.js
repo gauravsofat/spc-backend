@@ -17,7 +17,7 @@ const sendConfirmationMail = (sid) => {
     from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'SPC Student Account Confirmation',
-    text: 'Please click the given link to activate your student account: ',
+    text: 'Please click the given link to verify your student account: \n',
     html: `<a href="${url}">${url}</a>`,
   };
 

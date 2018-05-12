@@ -3,18 +3,17 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user'); // Import model
 
-const mailer = require('../mailer.js'); // Import Controllers
+const sendPasswordResetMail = require('../controllers/sendPasswordResetMail'); // Import Controllers
 
-const forgPass = (req, res) => {
-  // forgotPassword - forgPass
+const forgotPassword = (req, res) => {
   User.findOne({ sid: req.body.sid }).exec((queryError, user) => {
     if (queryError) console.log(queryError);
     else if (user == null) res.json({ message: 'User does not exist.' });
     else {
-      mailer.forgotPassword(user.sid);
+      sendPasswordResetMail(user.sid);
       res.json({
         message: 'Reset password mail sent.',
-        id: user.sid,
+        sid: user.sid,
       });
     }
   });
@@ -28,31 +27,26 @@ const resetPassword = (req, res) => {
 
 const passwordUpdate = (req, res) => {
   // For updating password
-  if (req.body.password !== undefined) {
-    User.findOneAndUpdate(
-      { sid: req.body.id },
-      { password: req.body.password },
-      { new: true },
-      (err, user) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
+  User.findOneAndUpdate(
+    { sid: req.body.sid },
+    { password: req.body.password },
+    { new: true },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        res.json({ message: 'Error. Could not update password.' });
+      } else {
         res.json({
-          message: 'Password has been successfully changed.',
-          sid: req.body.id,
+          message: 'Password has been updated successfully.',
+          sid: user.sid,
         });
-      },
-    );
-  } else {
-    res.json({
-      message: 'Password is missing.',
-      sid: req.body.id,
-    });
-  }
+      }
+    },
+  );
 };
 
 const router = express.Router();
-router.post('/', forgPass);
 router.get('/:token', resetPassword);
 router.put('/', passwordUpdate);
+router.post('/', forgotPassword);
 module.exports = router;
