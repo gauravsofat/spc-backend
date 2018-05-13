@@ -17,8 +17,11 @@ const sendConfirmationMail = (sid) => {
     from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'SPC Student Account Confirmation',
-    text: 'Please click the given link to verify your student account: ',
-    html: `<a href="${url}">${url}</a>`,
+    html:
+      `Hello, <strong>${sid}</strong> <br><br>`+
+      `<p>Please click <a href="${url}">here</a> to verify your SPC student acccount.</p><br>`+
+      `Regards,<br>`+
+      `Student Placement Cell.`
   };
 
   // Send mail with defined transport object

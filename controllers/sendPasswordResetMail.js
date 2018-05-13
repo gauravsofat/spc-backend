@@ -18,8 +18,11 @@ const sendPasswordResetMail = (sid) => {
     from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'Placement Account New Password',
-    text: 'Please click the given link to reset your SPC student account password: \n',
-    html: `<a href="${url}">${url}</a>`,
+    html:
+      `Hello, <strong>${sid}</strong> <br><br>`+
+      `<p>Please click <a href="${url}">here</a> to reset your SPC student acccount password.</p><br>`+
+      `Regards,<br>`+
+      `Student Placement Cell.`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
