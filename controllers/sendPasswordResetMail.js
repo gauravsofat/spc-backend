@@ -12,17 +12,17 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendPasswordResetMail = (sid) => {
-  const token = jwt.sign({ id: sid }, process.env.EMAIL_KEY, { expiresIn: '5d' });
-  const url = `http://localhost:3000/forgotpassword?q=${token}`; // Temporary
+  const token = jwt.sign({ sid }, process.env.EMAIL_KEY, { expiresIn: '5d' }); // Genrate Token
+  const url = `${process.env.RESET_PASSWORD_PAGE}?q=${token}`;
   const mailOptions = {
     from: '"SPC DAIICT No Reply" <spc.daiict.noreply@gmail.com>',
     to: `${String(sid)}@daiict.ac.in`,
     subject: 'Placement Account New Password',
     html:
-      `Hello, <strong>${sid}</strong> <br><br>`+
-      `<p>Please click <a href="${url}">here</a> to reset your SPC student acccount password.</p><br>`+
-      `Regards,<br>`+
-      `Student Placement Cell.`
+      `Hello, <strong>${sid}</strong> <br><br>` +
+      `<p>Please click <a href="${url}">here</a> to reset your SPC student acccount password.</p><br>` +
+      'Regards,<br>' +
+      'Student Placement Cell.',
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

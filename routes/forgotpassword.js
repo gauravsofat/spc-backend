@@ -20,7 +20,9 @@ const forgotPasswordRequest = (req, res) => {
 };
 
 const passwordUpdate = (req, res) => {
+  // Extract user data from token
   const userData = jwt.verify(req.body.token, process.env.EMAIL_KEY);
+
   User.findOneAndUpdate(
     { sid: userData.sid },
     { password: req.body.password },
@@ -29,7 +31,7 @@ const passwordUpdate = (req, res) => {
       if (err) {
         console.log(err);
         res.json({ message: 'Error. Could not update password.' });
-      } else res.redirect('http://localhost:3000/login');
+      } else res.json({ message: 'Password Successfully updated.' });
     },
   );
 };

@@ -29,11 +29,11 @@ const verifyUser = (req, res) => {
   // Extract user data from token
   const userData = jwt.verify(req.params.token, process.env.EMAIL_KEY);
 
-  User.findOneAndUpdate({ sid: userData.id }, { isUserVerified: true }, { new: true }, (err) => {
+  User.findOneAndUpdate({ sid: userData.sid }, { isUserVerified: true }, { new: true }, (err) => {
     if (err) {
       console.log(err);
       res.json({ message: 'Error. Could not verify user' });
-    } else res.redirect('http://localhost:3000/login');
+    } else res.redirect(process.env.LOGIN_PAGE);
   });
 };
 
