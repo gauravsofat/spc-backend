@@ -9,6 +9,7 @@ require('dotenv').config();
 const signup = require('./routes/signup');
 const login = require('./routes/login');
 const forgotpassword = require('./routes/forgotpassword');
+const profile = require('./routes/profile');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -42,6 +43,7 @@ app.use((req, res, next) => {
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/forgotpassword', forgotpassword);
+app.use('/profile', profile);
 
 // Error handling
 app.use((err, req, res, next) => {
