@@ -23,7 +23,7 @@ conn.on('connected', () => {
 const app = express();
 
 app.use(helmet()); // Sanitization of incoming requests
-app.use(morgan('tiny')); // Logging of incoming requests
+app.use(morgan('dev')); // Logging of incoming requests
 app.use(express.json()); // Parse JSON encoded payloads in request
 app.use(express.urlencoded({ extended: false })); // Parse URL encoded payload in requests
 

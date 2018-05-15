@@ -8,7 +8,7 @@ const companySchema = new Schema(
     category: { type: String, required: true },
     description: { type: String, required: true },
     profile: { type: String, required: true },
-    event: { type: String, required: true }, // One out of [I, J, I+J]
+    event: { type: String, required: true, enum: ['I2', 'I6', 'J', 'I+J'] },
     studentList: [String], // Students selected for the profile
   },
   { collection: 'companies' },

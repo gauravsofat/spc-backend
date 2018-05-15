@@ -23,17 +23,12 @@ const passwordUpdate = (req, res) => {
   // Extract user data from token
   const userData = jwt.verify(req.body.token, process.env.EMAIL_KEY);
 
-  User.findOneAndUpdate(
-    { sid: userData.sid },
-    { password: req.body.password },
-    { new: true },
-    (err) => {
-      if (err) {
-        console.log(err);
-        res.json({ message: 'Error. Could not update password.' });
-      } else res.json({ message: 'Password Successfully updated.' });
-    },
-  );
+  User.update({ sid: userData.sid }, { password: req.body.password }, (err) => {
+    if (err) {
+      console.log(err);
+      res.json({ message: 'Error. Could not update password.' });
+    } else res.json({ message: 'Password Successfully updated.' });
+  });
 };
 
 const router = express.Router();

@@ -13,7 +13,7 @@ const userAuth = (req, res) => {
       const token = jwt.sign(
         { sid: user.sid, admin: user.sid === process.env.ADMIN_ID },
         process.env.SECRET_KEY,
-        { expiresIn: 1440 },
+        { expiresIn: '5h' },
       );
       res.json({
         message: 'Successful Authentication',
@@ -24,12 +24,10 @@ const userAuth = (req, res) => {
   });
 };
 
-// User account verification via email
 const verifyUser = (req, res) => {
-  // Extract user data from token
   const userData = jwt.verify(req.params.token, process.env.EMAIL_KEY);
 
-  User.findOneAndUpdate({ sid: userData.sid }, { isUserVerified: true }, { new: true }, (err) => {
+  User.update({ sid: userData.sid }, { isUserVerified: true }, (err) => {
     if (err) {
       console.log(err);
       res.json({ message: 'Error. Could not verify user' });
