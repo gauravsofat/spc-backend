@@ -12,6 +12,7 @@ const login = require('./routes/login');
 const forgotpassword = require('./routes/forgotpassword');
 const profile = require('./routes/profile');
 const resume = require('./routes/resume.js');
+const excel = require('./routes/excel.js');
 
 // Connect to database
 mongoose.Promise = global.Promise;
@@ -49,6 +50,7 @@ app.use('/login', login);
 app.use('/forgotpassword', forgotpassword);
 app.use('/profile', profile);
 app.use('/profile', resume);
+app.use('/excel', excel);
 
 // Error handling
 app.use((err, req, res, next) => {
