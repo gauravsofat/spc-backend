@@ -11,8 +11,12 @@ const signup = require('./routes/signup');
 const login = require('./routes/login');
 const forgotpassword = require('./routes/forgotpassword');
 const profile = require('./routes/profile');
+<<<<<<< HEAD
 const resume = require('./routes/resume.js');
 const excel = require('./routes/excel.js');
+=======
+const employer = require('./routes/employer');
+>>>>>>> 3cd206c16c790ff5beca3739dfc719004bdb7f23
 
 // Connect to database
 mongoose.Promise = global.Promise;
@@ -49,12 +53,17 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/forgotpassword', forgotpassword);
 app.use('/profile', profile);
+<<<<<<< HEAD
 app.use('/profile', resume);
 app.use('/excel', excel);
+=======
+app.use('/employer', employer);
+>>>>>>> 3cd206c16c790ff5beca3739dfc719004bdb7f23
 
 // Error handling
 app.use((err, req, res, next) => {
   if (res.headersSent) next(err);
+  console.log(err);
   res.send('Server Error. Something Broke!');
 });
 
