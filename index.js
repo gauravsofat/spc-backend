@@ -10,6 +10,7 @@ const signup = require('./routes/signup');
 const login = require('./routes/login');
 const forgotpassword = require('./routes/forgotpassword');
 const profile = require('./routes/profile');
+const employer = require('./routes/employer');
 
 // Connect to database
 mongoose.connect(process.env.LINK_TO_DB);
@@ -44,10 +45,12 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/forgotpassword', forgotpassword);
 app.use('/profile', profile);
+app.use('/employer', employer);
 
 // Error handling
 app.use((err, req, res, next) => {
   if (res.headersSent) next(err);
+  console.log(err);
   res.send('Server Error. Something Broke!');
 });
 

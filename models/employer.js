@@ -11,6 +11,7 @@ const employerSchema = new Schema(
     profile: { type: String, required: true },
     jobType: { type: String, required: true, enum: ['I2', 'I6', 'J', 'I+J'] },
     studentList: [String], // List of registered students
+    batch: { type: String, required: true },
   },
   { collection: 'employers' },
 );
