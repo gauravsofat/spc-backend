@@ -23,7 +23,7 @@ const addEmployer = (req, res) => {
 };
 
 const getEmployerList = (req, res) => {
-  Employer.find(null, 'name category jobType').exec((err, companyList) => {
+  Employer.find(null, 'id name category jobType batch').exec((err, companyList) => {
     if (err) {
       console.log(err);
       res.json({ message: 'Database error. Failed to get company list.' });
@@ -33,7 +33,7 @@ const getEmployerList = (req, res) => {
 
 const getEmployerDetails = (req, res) => {
   const fieldSpecifier = res.locals.isAdmin ? ' ' : '-studentList'; // Ensure only admin can view list of student list for an employer
-  Employer.findOne({ name: req.params.employerName }, fieldSpecifier).exec((err, employer) => {
+  Employer.findById(req.params.employerID, fieldSpecifier).exec((err, employer) => {
     if (err) {
       console.log(err);
       res.json({ message: 'Database error. Failed to get company details.' });
@@ -60,6 +60,6 @@ router.use(authenticateUser);
 router.post('/add', utils.isAdmin, addEmployer);
 router.post('/register', registerStudent);
 router.get('/list', getEmployerList);
-router.get('/:employerName', getEmployerDetails);
+router.get('/:employerID', getEmployerDetails);
 
 module.exports = router;
